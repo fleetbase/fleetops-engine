@@ -50,11 +50,18 @@ export default class ManagementContactsIndexController extends Controller {
     @service fetch;
 
     /**
+     * Inject the `filters` service
+     *
+     * @var {Service}
+     */
+    @service filters;
+
+    /**
      * Queryable parameters for this controller's model
      *
      * @var {Array}
      */
-    queryParams = ['page', 'limit', 'sort', 'query', 'public_id', 'internal_id', 'created_by', 'updated_by', 'status'];
+    queryParams = ['name', 'email', 'page', 'limit', 'sort', 'query', 'public_id', 'internal_id', 'created_at', 'updated_at', 'status', 'type'];
 
     /**
      * True if route is loading data
@@ -83,20 +90,6 @@ export default class ManagementContactsIndexController extends Controller {
      * @var {String}
      */
     @tracked sort;
-
-    /**
-     * The filterable param `public_id`
-     *
-     * @var {String}
-     */
-    @tracked public_id;
-
-    /**
-     * The filterable param `internal_id`
-     *
-     * @var {String}
-     */
-    @tracked internal_id;
 
     /**
      * The filterable param `status`
@@ -159,7 +152,7 @@ export default class ManagementContactsIndexController extends Controller {
         {
             label: 'Email',
             valuePath: 'email',
-            cellComponent: 'table/cell/base',
+            cellComponent: 'click-to-copy',
             width: '160px',
             resizable: true,
             sortable: true,
@@ -169,7 +162,7 @@ export default class ManagementContactsIndexController extends Controller {
         {
             label: 'Phone',
             valuePath: 'phone',
-            cellComponent: 'table/cell/base',
+            cellComponent: 'click-to-copy',
             width: '140px',
             resizable: true,
             sortable: true,
@@ -190,20 +183,24 @@ export default class ManagementContactsIndexController extends Controller {
             label: 'Created At',
             valuePath: 'createdAt',
             sortParam: 'created_at',
-            width: '130px',
+            width: '120px',
             resizable: true,
             sortable: true,
             filterable: true,
+            filterParam: 'created_at',
+            filterLabel: 'Created Between',
             filterComponent: 'filter/date',
         },
         {
             label: 'Updated At',
             valuePath: 'updatedAt',
             sortParam: 'updated_at',
-            width: '130px',
+            width: '12%',
             resizable: true,
             sortable: true,
             hidden: true,
+            filterParam: 'updated_at',
+            filterLabel: 'Last Updated Between',
             filterable: true,
             filterComponent: 'filter/date',
         },

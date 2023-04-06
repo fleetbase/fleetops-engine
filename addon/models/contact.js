@@ -5,6 +5,7 @@ import { format as formatDate, isValid as isValidDate, formatDistanceToNow } fro
 export default class ContactModel extends Model {
     /** @ids */
     @attr('string') public_id;
+    @attr('string') internal_id;
     @attr('string') company_uuid;
     @attr('string') photo_uuid;
     @attr('string') place_uuid;
