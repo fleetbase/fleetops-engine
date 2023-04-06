@@ -42,6 +42,13 @@ export default class ManagementVendorsIndexController extends Controller {
     @service crud;
 
     /**
+     * Inject the `filters` service
+     *
+     * @var {Service}
+     */
+    @service filters;
+
+    /**
      * Inject the `fetch` service
      *
      * @var {Service}

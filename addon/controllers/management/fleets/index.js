@@ -42,6 +42,13 @@ export default class ManagementFleetsIndexController extends Controller {
     @service crud;
 
     /**
+     * Inject the `filters` service
+     *
+     * @var {Service}
+     */
+    @service filters;
+
+    /**
      * Inject the `fetch` service
      *
      * @var {Service}
@@ -60,7 +67,7 @@ export default class ManagementFleetsIndexController extends Controller {
      *
      * @var {Array}
      */
-    queryParams = ['page', 'limit', 'sort', 'query', 'public_id', 'internal_id', 'created_by', 'updated_by', 'status'];
+    queryParams = ['name', 'page', 'limit', 'sort', 'query', 'public_id', 'internal_id', 'created_by', 'updated_by', 'status'];
 
     /**
      * True if route is loading data
