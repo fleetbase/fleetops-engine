@@ -30,9 +30,14 @@ export default buildRoutes(function () {
         });
         this.route('drivers', function () {
             this.route('index', { path: '/' }, function () {
-                this.route('new');
+                this.route('new', function () {
+                    this.route('details', { path: '/' });
+                    this.route('tracking');
+                    this.route('orders');
+                });
             });
         });
+
         this.route('vehicles', function () {
             this.route('index', { path: '/' });
         });

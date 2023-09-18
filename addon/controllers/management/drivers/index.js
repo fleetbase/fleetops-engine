@@ -627,23 +627,23 @@ export default class ManagementDriversIndexController extends Controller {
      * @param {Object} options
      * @void
      */
-    // @action createDriver() {
-    //     const driver = this.store.createRecord('driver', {
-    //         status: `active`,
-    //         slug: generateSlug(),
-    //     });
+    @action createDriver() {
+        const driver = this.store.createRecord('driver', {
+            status: `active`,
+            slug: generateSlug(),
+        });
 
-    //     return this.editDriver(driver, {
-    //         title: 'New Driver',
-    //         acceptButtonText: 'Create',
-    //         acceptButtonIcon: 'check',
-    //         acceptButtonIconPrefix: 'fas',
-    //         successNotification: (driver) => `New driver (${driver.name}) created.`,
-    //         onConfirm: () => {
-    //             return this.hostRouter.refresh();
-    //         },
-    //     });
-    // }
+        return this.editDriver(driver, {
+            title: 'New Driver',
+            acceptButtonText: 'Create',
+            acceptButtonIcon: 'check',
+            acceptButtonIconPrefix: 'fas',
+            successNotification: (driver) => `New driver (${driver.name}) created.`,
+            onConfirm: () => {
+                return this.hostRouter.refresh();
+            },
+        });
+    }
 
     /**
      * Transition to service rate edit route.
@@ -651,9 +651,9 @@ export default class ManagementDriversIndexController extends Controller {
      * @param {ServiceRateModel} serviceRate
      * @memberof OperationsServiceRatesIndexController
      */
-    @action createDriver(serviceRate) {
-        this.transitionToRoute('operations.management.drivers.index.new', serviceRate);
-    }
+    // @action createDriver(serviceRate) {
+    //     this.transitionToRoute('management.drivers.index.new', serviceRate);
+    // }
 
     /**
      * Edit a `driver` details
