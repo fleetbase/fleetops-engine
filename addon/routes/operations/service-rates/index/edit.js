@@ -1,11 +1,18 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class OperationsServiceRatesIndexEditRoute extends Route {
     @service store;
     @service currentUser;
+    @service notifications;
 
     templateName = 'operations.service-rates.index.new';
+
+    @action error(error, transition) {
+        this.notifications.serverError(error);
+        return this.transitionTo('operations.service-rates.index');
+    }
 
     model({ public_id }) {
         return this.store.queryRecord('service-rate', {

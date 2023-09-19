@@ -1,4 +1,4 @@
-<Overlay @position="right" @noBackdrop={{true}} @fullHeight={{true}} @width="700">
+<Overlay @position="right" @noBackdrop={{true}} @isResizable={{true}} @fullHeight={{true}} @width="800px">
     <Overlay::Header @title={{if this.serviceRate.id this.serviceRate.service_name "New service rate"}} @status={{this.serviceRate.public_id}} @hideStatusDot={{true}} @createdAt={{this.serviceRate.createdAt}} @onPressCancel={{this.transitionBack}}>
         {{#if this.serviceRate.id}}
             <Button @icon="save" @type="primary" @text="Save Service Rate" @onClick={{this.updateServiceRate}} @isLoading={{this.isUpdatingServiceRate}} @isSubscriptionRequired={{true}} />
@@ -179,7 +179,7 @@
                         <div class="dark:text-gray-100">
                             <div class="grid grid-cols-7">
                                 <div class="flex flex-col items-start justify-start pt-3">
-                                    <img src="/images/boxes/{{parcelFee.size}}.png" alt="parcel size {{parcelFee.size}}" width="44" class="w-11">
+                                    <img src="/engines-dist/images/boxes/{{parcelFee.size}}.png" alt="parcel size {{parcelFee.size}}" width="44" class="w-11">
                                     <label class="mt-2">{{humanize parcelFee.size}}</label>
                                 </div>
                                 <div class="col-span-6 dimensions-box">

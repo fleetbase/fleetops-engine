@@ -1,7 +1,6 @@
 import OperationsServiceRatesIndexNewController from './new';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-// import { alias } from '@ember/object/computed';
 
 export default class OperationsServiceRatesIndexEditController extends OperationsServiceRatesIndexNewController {
     /**
@@ -44,6 +43,7 @@ export default class OperationsServiceRatesIndexEditController extends Operation
                     return this.transitionToRoute('operations.service-rates.index').then(() => {
                         this.notifications.success(`Service rate '${serviceRate.service_name}' updated`);
                         this.resetForm();
+                        this.hostRouter.refresh();
                     });
                 })
                 .catch(this.notifications.serverError)

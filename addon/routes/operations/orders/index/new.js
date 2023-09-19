@@ -7,7 +7,9 @@ export default class OperationsOrdersIndexNewRoute extends Route {
     @service loader;
 
     @action willTransition() {
-        this.controller?.resetForm();
+        if (this.controller) {
+            this.controller.resetForm();
+        }
     }
 
     async setupController(controller) {

@@ -1,17 +1,10 @@
-import Controller, { inject as controller } from '@ember/controller';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action, computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
 
 export default class OperationsServiceRatesIndexNewController extends Controller {
-    /**
-     * Inject the `operations.service-rates.index` controller
-     *
-     * @var {Controller}
-     */
-    @controller('operations.service-rates.index') index;
-
     /**
      * Inject the `currentUser` service
      *
@@ -34,11 +27,18 @@ export default class OperationsServiceRatesIndexNewController extends Controller
     @service loader;
 
     /**
+     * Inject the `hostRouter` service
+     *
+     * @var {Service}
+     */
+    @service hostRouter;
+
+    /**
      * The service rate being created.
      *
      * @var {ServiceRateModel}
      */
-    @tracked serviceRate = this.store.createRecord('service-rate');
+    @tracked serviceRate = this.store.createRecord('service-rate', { per_meter_unit: 'm' });
 
     /**
      * Different service types available, based on order type.
@@ -300,11 +300,10 @@ export default class OperationsServiceRatesIndexNewController extends Controller
             return serviceRate
                 .save()
                 .then((serviceRate) => {
-                    this.index.table.addRow(serviceRate);
-
                     return this.transitionToRoute('operations.service-rates.index').then(() => {
                         this.notifications.success(`New Service Rate ${serviceRate.service_name} Created`);
                         this.resetForm();
+                        this.hostRouter.refresh();
                     });
                 })
                 .catch((error) => {

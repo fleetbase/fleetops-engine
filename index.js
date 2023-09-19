@@ -33,6 +33,21 @@ module.exports = buildEngine({
             { package: 'leaflet-contextmenu', include: undefined, exclude: [...alwaysExclude], path: ['dist'] },
             { package: 'leaflet-draw', include: undefined, exclude: [...alwaysExclude], path: ['dist'] },
             { package: 'leaflet-rotatedmarker', include: undefined, exclude: [...alwaysExclude], path: [] },
+            {
+                package: 'leaflet-drift-marker',
+                include: ['index.js', 'index.js.map'],
+                exclude: [...alwaysExclude],
+                path: ['lib'],
+                getDestinationPath: (relativePath) => {
+                    if (relativePath === 'index.js') {
+                        return 'leaflet-drift-marker.js';
+                    }
+                    if (relativePath === 'index.js.map') {
+                        return 'leaflet-drift-marker.js.map';
+                    }
+                    return relativePath;
+                },
+            },
         ];
         const trees = [];
 
@@ -45,6 +60,7 @@ module.exports = buildEngine({
                     destDir: 'leaflet',
                     include: leafletAdddon.include,
                     exclude: leafletAdddon.exclude,
+                    getDestinationPath: leafletAdddon.getDestinationPath,
                 })
             );
         }

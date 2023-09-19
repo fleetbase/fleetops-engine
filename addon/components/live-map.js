@@ -112,6 +112,7 @@ export default class LiveMapComponent extends Component {
         this.isReady = true;
 
         this.watchDrivers(this.drivers);
+        this.listenForOrders();
 
         if (typeof this.args.onReady === 'function') {
             this.args.onReady(this);
@@ -333,6 +334,11 @@ export default class LiveMapComponent extends Component {
 
     @action onDriverAdded(driver, event) {
         const { target } = event;
+
+        // set the marker instance to the driver model
+        set(driver, '_marker', target);
+
+        console.log('onDriverAdded()', ...arguments);
 
         this.createContextMenuForDriver(driver, target);
     }
@@ -721,6 +727,30 @@ export default class LiveMapComponent extends Component {
      * Functions are used to fetch date or handle socket callbacks/initializations.
      *
      */
+    @action async listenForOrders() {
+        // setup socket
+        const socket = this.socket.instance();
+
+        // listen on company channel
+        const channelId = `company.${this.currentUser.companyId}`;
+        const channel = socket.subscribe(channelId);
+
+        // track channel
+        this.channels.pushObject(channel);
+
+        // listen to channel for events
+        await channel.listener('subscribe').once();
+
+        // get incoming data and console out
+        (async () => {
+            for await (let output of channel) {
+                const { event, data } = output;
+
+                console.log(`[channel ${channelId}]`, output, event, data);
+            }
+        })();
+    }
+
     @action watchDrivers(drivers = []) {
         // setup socket
         const socket = this.socket.instance();
@@ -734,11 +764,8 @@ export default class LiveMapComponent extends Component {
 
     @action async listenForDriver(driver, socket) {
         // listen on company channel
-        const channelId = `driver.${driver.uuid}`;
+        const channelId = `driver.${driver.id}`;
         const channel = socket.subscribe(channelId);
-
-        // debug
-        // console.log(`socket subscribed to ${channelId}`);
 
         // track channel
         this.channels.pushObject(channel);
@@ -746,17 +773,45 @@ export default class LiveMapComponent extends Component {
         // listen to channel for events
         await channel.listener('subscribe').once();
 
-        // get incoming data and console out
-        for await (let output of channel) {
-            const { event, data } = output;
+        // Initialize an empty buffer to store incoming events
+        const eventBuffer = [];
 
-            if (event === 'driver.location_changed') {
-                driver.location = data.location;
-                driver.altitude = data.altitude;
-                driver.heading = data.heading;
-                driver.speed = data.speed;
+        // Time to wait in milliseconds before processing buffered events
+        const bufferTime = 1000 * 10;
+
+        // Function to process buffered events
+        const processBuffer = () => {
+            // Sort events by created_at
+            eventBuffer.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+            // Process sorted events
+            for (const output of eventBuffer) {
+                const { event, data } = output;
+                console.log(`${event} - #${data.additionalData.index} (${output.created_at}) [ ${data.location.coordinates.join(' ')} ]`);
+                // update driver heading degree
+                driver._marker.setRotationAngle(data.heading);
+                // move driver's marker to new coordinates
+                driver._marker.slideTo(data.location.coordinates, { duration: 2000 });
             }
-        }
+
+            // Clear the buffer
+            eventBuffer.length = 0;
+        };
+
+        // Start a timer to process the buffer at intervals
+        setInterval(processBuffer, bufferTime);
+
+        // get incoming data and console out
+        (async () => {
+            for await (let output of channel) {
+                const { event, data } = output;
+
+                if (event === 'driver.location_changed' || event === 'driver.simulated_location_changed') {
+                    // Add the incoming event to the buffer
+                    eventBuffer.push(output);
+                }
+            }
+        })();
     }
 
     @action closeChannels() {
@@ -829,15 +884,20 @@ export default class LiveMapComponent extends Component {
         this.isLoading = true;
 
         return new Promise((resolve) => {
-            this.fetch.get('fleet-ops/live/routes').then((routes) => {
-                this.isLoading = false;
+            this.fetch
+                .get('fleet-ops/live/routes')
+                .then((routes) => {
+                    this.isLoading = false;
 
-                if (typeof this.args.onRoutesLoaded === 'function') {
-                    this.args.onRoutesLoaded(routes);
-                }
+                    if (typeof this.args.onRoutesLoaded === 'function') {
+                        this.args.onRoutesLoaded(routes);
+                    }
 
-                resolve(routes);
-            });
+                    resolve(routes);
+                })
+                .catch(() => {
+                    resolve([]);
+                });
         });
     }
 
@@ -854,6 +914,8 @@ export default class LiveMapComponent extends Component {
 
                 resolve(drivers);
             });
+        }).catch(() => {
+            resolve([]);
         });
     }
 
@@ -864,15 +926,20 @@ export default class LiveMapComponent extends Component {
         const center = this.leafletMap.getCenter();
 
         return new Promise((resolve) => {
-            this.fetch.get('fleet-ops/live/places', { within: center }, { normalizeToEmberData: true, normalizeModelType: 'place' }).then((places) => {
-                this.isLoading = false;
+            this.fetch
+                .get('fleet-ops/live/places', { within: center }, { normalizeToEmberData: true, normalizeModelType: 'place' })
+                .then((places) => {
+                    this.isLoading = false;
 
-                if (typeof this.args.onPlacesLoaded === 'function') {
-                    this.args.onPlacesLoaded(places);
-                }
+                    if (typeof this.args.onPlacesLoaded === 'function') {
+                        this.args.onPlacesLoaded(places);
+                    }
 
-                resolve(places);
-            });
+                    resolve(places);
+                })
+                .catch(() => {
+                    resolve([]);
+                });
         });
     }
 

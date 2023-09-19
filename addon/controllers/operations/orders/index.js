@@ -81,6 +81,13 @@ export default class OperationsOrdersIndexController extends Controller {
     @service universe;
 
     /**
+     * Inject the `socket` service
+     *
+     * @var {Service}
+     */
+    @service socket;
+
+    /**
      * Queryable parameters for this controller's model
      *
      * @var {Array}
@@ -538,6 +545,54 @@ export default class OperationsOrdersIndexController extends Controller {
     ];
 
     /**
+     * Creates an instance of OperationsOrdersIndexController.
+     * @memberof OperationsOrdersIndexController
+     */
+    constructor() {
+        super(...arguments);
+        this.listenForOrderEvents();
+    }
+
+    /**
+     * Listen for incoming order events to refresh listing.
+     *
+     * @memberof OperationsOrdersIndexController
+     */
+    @action async listenForOrderEvents() {
+        // wait for user to be loaded into service
+        this.currentUser.on('user.loaded', () => {
+            // Get socket instance
+            const socket = this.socket.instance();
+
+            // The channel ID to listen on
+            const channelId = `company.${this.currentUser.companyId}`;
+
+            // Listed on company channel
+            const channel = socket.subscribe(channelId);
+
+            // Events which should trigger refresh
+            const listening = ['order.ready', 'order.driver_assigned'];
+
+            // Listen for channel subscription
+            (async () => {
+                for await (let output of channel) {
+                    const { event } = output;
+
+                    // if an order event refresh orders
+                    if (typeof event === 'string' && listening.includes(event)) {
+                        this.hostRouter.refresh();
+                    }
+                }
+            })();
+
+            // disconnect when transitioning
+            this.hostRouter.on('routeWillChange', () => {
+                channel.close();
+            });
+        });
+    }
+
+    /**
      * The search task.
      *
      * @void
@@ -572,13 +627,9 @@ export default class OperationsOrdersIndexController extends Controller {
     }
 
     @action resetView() {
-        const {
-            leafletMap: { liveMap },
-        } = this;
-
-        if (liveMap) {
-            liveMap.hideDrivers();
-            liveMap.hideRoutes();
+        if (this.leafletMap && this.leafletMap.liveMap) {
+            this.leafletMap.liveMap.hideDrivers();
+            this.leafletMap.liveMap.hideRoutes();
         }
     }
 

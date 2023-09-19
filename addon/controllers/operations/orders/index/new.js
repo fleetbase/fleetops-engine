@@ -5,7 +5,7 @@ import { action, computed, setProperties, set, get } from '@ember/object';
 import { not, equal, alias } from '@ember/object/computed';
 import { isArray } from '@ember/array';
 import { dasherize } from '@ember/string';
-import { later } from '@ember/runloop';
+import { later, next } from '@ember/runloop';
 import { OSRMv1, Control as RoutingControl } from '@fleetbase/leaflet-routing-machine';
 import polyline from '@fleetbase/ember-core/utils/polyline';
 import findClosestWaypoint from '@fleetbase/ember-core/utils/find-closest-waypoint';
@@ -494,7 +494,9 @@ export default class OperationsOrdersIndexNewController extends Controller {
     }
 
     @action newPlace() {
-        this.placesController?.createPlace();
+        if (this.placesController) {
+            return this.placesController.createPlace();
+        }
     }
 
     @action async getQuotes(service) {
@@ -564,26 +566,39 @@ export default class OperationsOrdersIndexNewController extends Controller {
     }
 
     @action setupInterface() {
-        this.leafletMap?.liveMap?.hideDrivers();
-        this.leafletMap?.liveMap?.hideRoutes();
+        if (this.leafletMap && this.leafletMap.liveMap) {
+            this.leafletMap.liveMap.hideDrivers();
+            this.leafletMap.liveMap.hideRoutes();
 
-        // track all layers added from this view
-        this.leafletMap?.on('layeradd', ({ layer }) => {
-            // disable dragging of layer
-            layer.dragging?.disable();
+            // track all layers added from this view
+            this.leafletMap.on('layeradd', ({ layer }) => {
+                // disable dragging of layer
+                if (layer.dragging && typeof layer.dragging.disable === 'function') {
+                    layer.dragging.disable();
+                }
 
-            if (!this.leafletLayers?.includes(layer)) {
-                this.leafletLayers.pushObject(layer);
-            }
-        });
+                next(this, function () {
+                    if (isArray(this.leafletLayers) && !this.leafletLayers.includes(layer)) {
+                        this.leafletLayers.pushObject(layer);
+                    }
+                });
+            });
+        } else {
+            // setup interface when livemap is ready
+            this.universe.on('livemap.ready', () => {
+                this.setupInterface();
+            });
+        }
 
         // switch to map mode
         this.ordersController.setLayoutMode('map');
     }
 
     @action resetInterface() {
-        this.leafletMap?.liveMap?.showDrivers();
-        this.leafletMap?.liveMap?.showRoutes();
+        if (this.leafletMap && this.leafletMap.liveMap) {
+            this.leafletMap.liveMap.showDrivers();
+            this.leafletMap.liveMap.showRoutes();
+        }
     }
 
     @action getRoute() {
@@ -674,15 +689,47 @@ export default class OperationsOrdersIndexNewController extends Controller {
     }
 
     @action clearLayers() {
-        const { leafletLayers, leafletMap } = this;
-
-        leafletLayers?.forEach((layer) => {
+        if (this.leafletMap) {
             try {
-                leafletMap.removeLayer(layer);
+                this.leafletMap.eachLayer((layer) => {
+                    if (isArray(this.leafletLayers) && this.leafletLayers.includes(layer)) {
+                        this.leafletMap.removeLayer(layer);
+                    }
+                });
             } catch (error) {
-                // silent error just continue with order processing if any
+                // fallback method with tracked layers
+                if (isArray(this.leafletLayers)) {
+                    this.leafletLayers.forEach((layer) => {
+                        try {
+                            this.leafletMap.removeLayer(layer);
+                        } catch (error) {
+                            // silent error just continue with order processing if any
+                        }
+                    });
+                }
             }
-        });
+        }
+    }
+
+    @action clearAllLayers() {
+        if (this.leafletMap) {
+            try {
+                this.leafletMap.eachLayer((layer) => {
+                    this.leafletMap.removeLayer(layer);
+                });
+            } catch (error) {
+                // fallback method with tracked layers
+                if (isArray(this.leafletLayers)) {
+                    this.leafletLayers.forEach((layer) => {
+                        try {
+                            this.leafletMap.removeLayer(layer);
+                        } catch (error) {
+                            // silent error just continue with order processing if any
+                        }
+                    });
+                }
+            }
+        }
     }
 
     @action createPlaceArrayFromPayload(payload, waypoints, isMultipleDropoffOrder = false) {

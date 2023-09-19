@@ -4,18 +4,18 @@
 
         {{#if this.isDriversVisible}}
             {{#each this.drivers as |driver|}}
-                <layers.rotated-marker @icon={{icon iconUrl=driver.vehicle_avatar iconSize=(array 32 32)}} @location={{point-to-coordinates driver.location}} @onAdd={{fn this.onAction "onDriverAdded" driver}} as |marker|>
+                <layers.drift-marker @rotationAngle={{driver.heading}} @duration={{300}} @icon={{icon iconUrl=driver.vehicle_avatar iconSize=(array 24 24)}} @location={{point-to-coordinates driver.location}} @publicId={{driver.public_id}} @onAdd={{fn this.onAction "onDriverAdded" driver}} as |marker|>
                     <marker.popup @maxWidth="500" @minWidth="225">
                         <DriverCard @driver={{driver}} @showCoordinates={{true}} @textClass="text-gray-900 dark:text-gray-100" />
                     </marker.popup>
-                    <marker.tooltip @permanent={{true}} @sticky={{true}}>{{driver.name}}</marker.tooltip>
-                </layers.rotated-marker>
+                    <marker.tooltip @permanent={{false}} @sticky={{true}}>{{driver.name}}</marker.tooltip>
+                </layers.drift-marker>
             {{/each}}
         {{/if}}
 
         {{#if this.isPlacesVisible}}
             {{#each this.places as |place|}}
-                <layers.marker @icon={{icon iconUrl="/engines-dist/images/building-marker.png" iconSize=(array 32 32)}} @location={{point-to-coordinates place.location}} @riseOnHover={{true}} @title={{place.address}} @alt={{place.address}} as |marker|>
+                <layers.marker @icon={{icon iconUrl="/engines-dist/images/building-marker.png" iconSize=(array 16 16)}} @location={{point-to-coordinates place.location}} @riseOnHover={{true}} @title={{place.address}} @alt={{place.address}} as |marker|>
                     <marker.popup>
                         <div>{{place.address}}</div>
                         <div>{{format-point place.location}}</div>

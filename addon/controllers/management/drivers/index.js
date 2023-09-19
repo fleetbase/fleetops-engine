@@ -580,7 +580,7 @@ export default class ManagementDriversIndexController extends Controller {
                             icon: 'headphones',
                             action: () => {
                                 this.modalsManager.done().then(() => {
-                                    this.hostRouter.transitionTo('console.developers-console.sockets.watch', `driver.${driver.public_id}`);
+                                    this.hostRouter.transitionTo('console.developers.sockets.view', `driver.${driver.public_id}`);
                                 });
                             },
                         },

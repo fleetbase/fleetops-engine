@@ -56,6 +56,14 @@ export default class OperationsServiceRatesIndexController extends Controller {
      */
     @service modalsManager;
 
+
+    /**
+     * Inject the `hostRouter` service
+     *
+     * @var {Service}
+     */
+    @service hostRouter;
+
     /**
      * Inject the `loader` service
      *

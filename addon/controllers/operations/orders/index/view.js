@@ -82,6 +82,13 @@ export default class OperationsOrdersIndexViewController extends Controller {
     @service hostRouter;
 
     /**
+     * Inject the `socket` service
+     *
+     * @var {Service}
+     */
+    @service socket;
+
+    /**
      * Inject the `universe` service
      *
      * @var {Service}
@@ -162,8 +169,10 @@ export default class OperationsOrdersIndexViewController extends Controller {
     }
 
     @action resetInterface() {
-        this.leafletMap?.liveMap?.showDrivers();
-        this.leafletMap?.liveMap?.showRoutes();
+        if (this.leafletMap && this.leafletMap.liveMap) {
+            this.leafletMap.liveMap.showDrivers();
+            this.leafletMap.liveMap.showRoutes();
+        }
     }
 
     @action removeRoutingControlPreview() {
@@ -209,8 +218,10 @@ export default class OperationsOrdersIndexViewController extends Controller {
             return later(
                 this,
                 () => {
-                    this.leafletMap?.liveMap?.hideDrivers();
-                    this.leafletMap?.liveMap?.hideRoutes();
+                    if (this.leafletMap && this.leafletMap.liveMap) {
+                        this.leafletMap.liveMap.hideDrivers();
+                        this.leafletMap.liveMap.hideRoutes();
+                    }
 
                     // display order route on map
                     this.displayOrderRoute();
