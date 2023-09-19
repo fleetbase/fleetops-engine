@@ -31,9 +31,18 @@ export default buildRoutes(function () {
         this.route('drivers', function () {
             this.route('index', { path: '/' }, function () {
                 this.route('new', function () {
-                    this.route('details', { path: '/' });
-                    this.route('tracking');
-                    this.route('orders');
+                    this.route('details', { path: '/' }, function () {
+                        this.route('new', { path: '/' });
+                        this.route('edit', { path: '/:public_id' });
+                    });
+                    this.route('tracking', function () {
+                        this.route('new', { path: '/' });
+                        this.route('edit', { path: '/:public_id' });
+                    });
+                    this.route('orders', function () {
+                        this.route('new', { path: '/' });
+                        this.route('edit', { path: '/:public_id' });
+                    });
                 });
             });
         });

@@ -1,21 +1,17 @@
 <Overlay @position="right" @noBackdrop={{true}} @fullHeight={{true}} @width="700">
     <Overlay::Header @title={{if this.serviceRate.id this.serviceRate.service_name "New drivers"}} @status={{this.serviceRate.public_id}} @hideStatusDot={{true}} @createdAt={{this.serviceRate.createdAt}} @onPressCancel={{this.transitionBack}}>
-        {{!-- <Button @icon="check" @type="primary" @text="Create Drivers" @onClick={{this.createDriver}} @isLoading={{this.isCreatingDriver}} @isSubscriptionRequired={{true}} /> --}}
-    </Overlay::Header>
-
-    <Overlay::Body @wrapperClass="new-service-rate-overlay-body px-4 space-y-4 pt-4" @increaseInnerBodyHeightBy={{1000}}>
-        <Layout::Section::Header @title="Category" class="align-items-unset" @actionsWrapperClass="align-items-end-i">
+       <Layout::Section::Header class="align-items-unset" @actionsWrapperClass="align-items-end-i">
             <div class="ui-tabs w-full border-b-0i">
                 <nav>
-                    <LinkTo @route="management.drivers.index.new.details" class="ui-tab">
+                    <LinkTo @route="management.drivers.index.new.details.new" class="ui-tab">
                         <FaIcon @icon="cash-register" class="mr-1" />
                         <span>Details</span>
                     </LinkTo>
-                    <LinkTo @route="management.drivers.index.new.tracking" class="ui-tab">
+                    <LinkTo @route="management.drivers.index.new.tracking.new" class="ui-tab">
                         <FaIcon @icon="cog" @prefix="fas" class="mr-1" />
                         <span>Tracking</span>
                     </LinkTo>
-                    <LinkTo @route="management.drivers.index.new.orders" class="ui-tab">
+                    <LinkTo @route="management.drivers.index.new.orders.new" class="ui-tab">
                         <FaIcon @icon="map-marker-alt" class="mr-1" />
                         <span>Orders</span>
                     </LinkTo>
@@ -23,9 +19,9 @@
 
             </div>
         </Layout::Section::Header>
+    </Overlay::Header>
 
-        <Layout::Section::Body>
-            {{outlet}}
-        </Layout::Section::Body>
+    <Overlay::Body @wrapperClass="new-service-rate-overlay-body px-4 space-y-4 pt-4" @increaseInnerBodyHeightBy={{1000}}>
+        {{outlet}}
     </Overlay::Body>
 </Overlay>
