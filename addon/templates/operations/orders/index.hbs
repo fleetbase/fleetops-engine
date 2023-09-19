@@ -39,7 +39,7 @@
             </DropdownButton>
         {{/if}}
         <Button @type="primary" @icon="plus" @iconPrefix="fas" @text="New" @wrapperClass="mr-2" @onClick={{fn (transition-to "operations.orders.index.new")}} />
-        <Button @icon="long-arrow-up" @iconClass="rotate-icon-45" @text="Export" @onClick={{this.exportOrders}} />
+        <Button @icon="long-arrow-up" @iconClass="rotate-icon-45" @text="Export1" @onClick={{this.exportOrders}} />
     </Layout::Section::Header>
     <Layout::Section::Body>
         <Table @rows={{@model}} @columns={{this.columns}} @selectable={{true}} @canSelectAll={{true}} @onSetup={{fn (mut this.table)}} @pagination={{true}} @paginationMeta={{@model.meta}} @page={{this.page}} @onPageChange={{fn (mut this.page)}} @tfootVerticalOffset="53" @tfootVerticalOffsetElements=".next-view-section-subheader,.next-map-container-topbar" />
@@ -51,7 +51,7 @@
         <Button @icon="cogs" @text="Config" class="mr-2" @onClick={{fn (transition-to "operations.orders.index.config")}} />
         <FiltersPicker @columns={{this.columns}} @onApply={{fn this.filters.apply this}} @onClear={{fn this.filters.reset this}} @onFilterClear={{this.filters.clear}} @onChange={{this.filters.set}} @buttonWrapperClass="mr-2" />
         <Button @type="primary" @icon="plus" @iconPrefix="fas" @text="New" @wrapperClass="mr-2" @onClick={{fn (transition-to "operations.orders.index.new")}} />
-        <Button @icon="long-arrow-up" @iconClass="rotate-icon-45" @text="Export" @onClick={{this.exportOrders}} />
+        <Button @icon="long-arrow-up" @iconClass="rotate-icon-45" @text="Export2" @onClick={{this.exportOrders}} />
     </Layout::Section::Header>
     <Layout::Section::Body>
         <OrderBoard @type={{this.type}} />

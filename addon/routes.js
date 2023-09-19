@@ -32,8 +32,9 @@ export default buildRoutes(function () {
             this.route('index', { path: '/' }, function () {
                 this.route('new', function () {
                     this.route('details', { path: '/' }, function () {
-                        this.route('new', { path: '/' });
+                        this.route('new');
                         this.route('edit', { path: '/:public_id' });
+                        this.route('view', { path: '/:public_id/view' });
                     });
                     this.route('tracking', function () {
                         this.route('new', { path: '/' });

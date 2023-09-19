@@ -496,130 +496,130 @@ export default class ManagementDriversIndexController extends Controller {
      * @param {Object} options
      * @void
      */
-    @action viewDriver(driver, options = {}) {
-        const viewDriverOnMap = () => {
-            this.modalsManager.done().then(() => {
-                return this.viewOnMap(driver, {
-                    onFinish: () => {
-                        this.viewDriver(driver);
-                    },
-                });
-            });
-        };
+    // @action viewDriver(driver, options = {}) {
+    //     const viewDriverOnMap = () => {
+    //         this.modalsManager.done().then(() => {
+    //             return this.viewOnMap(driver, {
+    //                 onFinish: () => {
+    //                     this.viewDriver(driver);
+    //                 },
+    //             });
+    //         });
+    //     };
 
-        this.modalsManager.show('modals/driver-details', {
-            title: driver.name,
-            titleComponent: 'modal/title-with-buttons',
-            acceptButtonText: 'Done',
-            acceptButtonIcon: 'check',
-            acceptButtonIconPrefix: 'fas',
-            hideDeclineButton: true,
-            declineButtonIcon: 'times',
-            declineButtonIconPrefix: 'fas',
-            headerStatus: driver.status,
-            headerButtons: [
-                {
-                    icon: 'cog',
-                    iconPrefix: 'fas',
-                    type: 'link',
-                    size: 'xs',
-                    ddMenuLabel: 'Driver Actions',
-                    options: [
-                        {
-                            title: 'Edit Driver',
-                            icon: 'edit',
-                            action: () => {
-                                this.modalsManager.done().then(() => {
-                                    return this.editDriver(driver, {
-                                        onFinish: () => {
-                                            this.viewDriver(driver);
-                                        },
-                                    });
-                                });
-                            },
-                        },
-                        {
-                            separator: true,
-                        },
-                        {
-                            title: 'Assign Order to Driver',
-                            icon: 'user-check',
-                            action: () => {
-                                this.modalsManager.done().then(() => {
-                                    return this.assignOrder(driver, {
-                                        onFinish: () => {
-                                            this.viewDriver(driver);
-                                        },
-                                    });
-                                });
-                            },
-                        },
-                        {
-                            title: 'Assign Vehicle to Driver',
-                            icon: 'car',
-                            action: () => {
-                                this.modalsManager.done().then(() => {
-                                    return this.assignVehicle(driver, {
-                                        onFinish: () => {
-                                            this.viewDriver(driver);
-                                        },
-                                    });
-                                });
-                            },
-                        },
-                        {
-                            title: 'Locate Driver',
-                            icon: 'map-pin',
-                            action: viewDriverOnMap,
-                        },
-                        {
-                            separator: true,
-                        },
-                        {
-                            title: 'Listen to socket channel',
-                            icon: 'headphones',
-                            action: () => {
-                                this.modalsManager.done().then(() => {
-                                    this.hostRouter.transitionTo('console.developers.sockets.view', `driver.${driver.public_id}`);
-                                });
-                            },
-                        },
-                        {
-                            separator: true,
-                        },
-                        {
-                            title: 'Delete Driver',
-                            icon: 'trash',
-                            action: () => {
-                                this.modalsManager.done().then(() => {
-                                    return this.deleteDriver(driver, {
-                                        onDecline: () => {
-                                            this.viewDriver(driver);
-                                        },
-                                    });
-                                });
-                            },
-                        },
-                    ],
-                },
-            ],
-            viewVendor: () =>
-                this.viewDriverVendor(driver, {
-                    onFinish: () => {
-                        this.viewDriver(driver);
-                    },
-                }),
-            viewVehicle: () =>
-                this.viewDriverVehicle(driver, {
-                    onFinish: () => {
-                        this.viewDriver(driver);
-                    },
-                }),
-            viewDriverOnMap,
-            driver,
-            ...options,
-        });
-    }
+    //     this.modalsManager.show('modals/driver-details', {
+    //         title: driver.name,
+    //         titleComponent: 'modal/title-with-buttons',
+    //         acceptButtonText: 'Done',
+    //         acceptButtonIcon: 'check',
+    //         acceptButtonIconPrefix: 'fas',
+    //         hideDeclineButton: true,
+    //         declineButtonIcon: 'times',
+    //         declineButtonIconPrefix: 'fas',
+    //         headerStatus: driver.status,
+    //         headerButtons: [
+    //             {
+    //                 icon: 'cog',
+    //                 iconPrefix: 'fas',
+    //                 type: 'link',
+    //                 size: 'xs',
+    //                 ddMenuLabel: 'Driver Actions',
+    //                 options: [
+    //                     {
+    //                         title: 'Edit Driver',
+    //                         icon: 'edit',
+    //                         action: () => {
+    //                             this.modalsManager.done().then(() => {
+    //                                 return this.editDriver(driver, {
+    //                                     onFinish: () => {
+    //                                         this.viewDriver(driver);
+    //                                     },
+    //                                 });
+    //                             });
+    //                         },
+    //                     },
+    //                     {
+    //                         separator: true,
+    //                     },
+    //                     {
+    //                         title: 'Assign Order to Driver',
+    //                         icon: 'user-check',
+    //                         action: () => {
+    //                             this.modalsManager.done().then(() => {
+    //                                 return this.assignOrder(driver, {
+    //                                     onFinish: () => {
+    //                                         this.viewDriver(driver);
+    //                                     },
+    //                                 });
+    //                             });
+    //                         },
+    //                     },
+    //                     {
+    //                         title: 'Assign Vehicle to Driver',
+    //                         icon: 'car',
+    //                         action: () => {
+    //                             this.modalsManager.done().then(() => {
+    //                                 return this.assignVehicle(driver, {
+    //                                     onFinish: () => {
+    //                                         this.viewDriver(driver);
+    //                                     },
+    //                                 });
+    //                             });
+    //                         },
+    //                     },
+    //                     {
+    //                         title: 'Locate Driver',
+    //                         icon: 'map-pin',
+    //                         action: viewDriverOnMap,
+    //                     },
+    //                     {
+    //                         separator: true,
+    //                     },
+    //                     {
+    //                         title: 'Listen to socket channel',
+    //                         icon: 'headphones',
+    //                         action: () => {
+    //                             this.modalsManager.done().then(() => {
+    //                                 this.hostRouter.transitionTo('console.developers.sockets.view', `driver.${driver.public_id}`);
+    //                             });
+    //                         },
+    //                     },
+    //                     {
+    //                         separator: true,
+    //                     },
+    //                     {
+    //                         title: 'Delete Driver',
+    //                         icon: 'trash',
+    //                         action: () => {
+    //                             this.modalsManager.done().then(() => {
+    //                                 return this.deleteDriver(driver, {
+    //                                     onDecline: () => {
+    //                                         this.viewDriver(driver);
+    //                                     },
+    //                                 });
+    //                             });
+    //                         },
+    //                     },
+    //                 ],
+    //             },
+    //         ],
+    //         viewVendor: () =>
+    //             this.viewDriverVendor(driver, {
+    //                 onFinish: () => {
+    //                     this.viewDriver(driver);
+    //                 },
+    //             }),
+    //         viewVehicle: () =>
+    //             this.viewDriverVehicle(driver, {
+    //                 onFinish: () => {
+    //                     this.viewDriver(driver);
+    //                 },
+    //             }),
+    //         viewDriverOnMap,
+    //         driver,
+    //         ...options,
+    //     });
+    // }
 
     /**
      * Create a new `driver` in modal
@@ -713,11 +713,14 @@ export default class ManagementDriversIndexController extends Controller {
     /**
      * Transition to service rate edit route.
      *
-     * @param {ServiceRateModel} serviceRate
-     * @memberof OperationsServiceRatesIndexController  
+     * @param {DriverModel} driver
      */
     @action editDriver(driver) {
         this.transitionToRoute('management.drivers.index.new.details.edit', driver);
+    }
+
+    @action viewDriver(driver) {
+        this.transitionToRoute('management.drivers.index.new.details.view', driver);
     }
 
     /**

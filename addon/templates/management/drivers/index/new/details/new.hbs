@@ -80,7 +80,7 @@
 </div>
 
 {{#if this.driver.id}}
-    <Button @icon="save" @type="primary" @text="Save Drivers" @onClick={{this.updateServiceRate}} @isLoading={{this.isUpdatingDriver}} @isSubscriptionRequired={{true}} />
+    <Button @icon="save" @type="primary" @text="Save Drivers" @onClick={{this.updateDriver}} @isLoading={{this.isUpdatingDriver}} @isSubscriptionRequired={{true}} />
 {{else}}
     <Button @icon="check" @type="primary" @text="Create Drivers" @onClick={{this.createDriver}} @isLoading={{this.isCreatingDriver}} @isSubscriptionRequired={{true}} />
 {{/if}}

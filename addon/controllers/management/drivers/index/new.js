@@ -6,10 +6,17 @@ import generateSlug from '@fleetbase/ember-core/utils/generate-slug';
 
 export default class ManagementDriversIndexNewController extends Controller {
     /**
-   * Resets the service rate form
-   *
-   * @void
-   */
+     * Inject the `currentUser` service
+     *
+     * @var {Service}
+     */
+    @service store;
+
+    /**
+     * Resets the service rate form
+     *
+     * @void
+     */
     @action resetForm() {
         this.drivers = this.store.createRecord('driver');
     }
