@@ -10,7 +10,7 @@ export default class OperationsDriversIndexNewDetailsController extends Controll
    *
    * @var {Controller}
    */
-  @controller('management.drivers.index.category') index;
+  @controller('management.drivers.index') index;
 
   /**
    * Inject the `currentUser` service 
