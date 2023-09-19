@@ -191,14 +191,14 @@ export default class OperationsServiceRatesIndexNewController extends Controller
      */
     @tracked perDropRateFees = this.serviceRate.isNew
         ? [
-              {
-                  min: 1,
-                  max: 5,
-                  fee: 0,
-                  unit: 'waypoint',
-                  currency: this.serviceRate.currency,
-              },
-          ]
+            {
+                min: 1,
+                max: 5,
+                fee: 0,
+                unit: 'waypoint',
+                currency: this.serviceRate.currency,
+            },
+        ]
         : this.serviceRate.rate_fees.toArray();
 
     /**

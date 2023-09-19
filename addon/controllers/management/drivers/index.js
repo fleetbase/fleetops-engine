@@ -646,16 +646,6 @@ export default class ManagementDriversIndexController extends Controller {
     }
 
     /**
-     * Transition to service rate edit route.
-     *
-     * @param {ServiceRateModel} serviceRate
-     * @memberof OperationsServiceRatesIndexController
-     */
-    // @action createDriver(serviceRate) {
-    //     this.transitionToRoute('management.drivers.index.new', serviceRate);
-    // }
-
-    /**
      * Edit a `driver` details
      *
      * @param {DriverModel} driver
