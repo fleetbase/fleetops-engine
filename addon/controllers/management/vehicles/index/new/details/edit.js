@@ -1,4 +1,6 @@
 import ManagementVehiclesIndexDetailsNewController from './new';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class ManagementVehiclesIndexDetailsEditController extends ManagementVehiclesIndexDetailsNewController {
   /**
@@ -12,18 +14,19 @@ export default class ManagementVehiclesIndexDetailsEditController extends Manage
    *
    * @void
    */
-  @action updateDriver() {
+  @action updateVehicle() {
     const { vehicle } = this;
 
     this.isUpdatingVehicle = true;
     this.loader.showLoader('.overlay-inner-content', 'Updating vehicle...');
 
     try {
-      return driver
+      return vehicle
         .save()
-        .then((driver) => {
+        .then((vehicle) => {
+          log
           return this.transitionToRoute('management.vehicles.index').then(() => {
-            this.notifications.success(`Driver '${driver.name}' updated`);
+            this.notifications.success(`Vehicle '${vehicle.name}' updated`);
             this.resetForm();
             this.hostRouter.refresh();
           });

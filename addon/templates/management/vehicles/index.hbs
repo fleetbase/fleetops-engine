@@ -12,8 +12,8 @@
             </div>
         </DropdownButton>
     {{/if}}
-    <Button @icon="plus" @iconPrefix="fas" @type="primary" @text="New" class="mr-2" @onClick={{this.createVehicle}} />
-     {{!-- <Button @icon="plus" @iconPrefix="fas" @type="primary" @text="New" class="mr-2" @onClick={{transition-to 'management.vehicles.index.new.details.new'}} /> --}}
+    {{!-- <Button @icon="plus" @iconPrefix="fas" @type="primary" @text="New" class="mr-2" @onClick={{this.createVehicle}} /> --}}
+     <Button @icon="plus" @iconPrefix="fas" @type="primary" @text="New" class="mr-2" @onClick={{transition-to 'management.vehicles.index.new.details.new'}} />
     <Button @icon="long-arrow-up" @iconClass="rotate-icon-45" @wrapperClass="hidden md:flex" @text="Export" @onClick={{this.exportVehicles}} />
 </Layout::Section::Header>
 

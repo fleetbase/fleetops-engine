@@ -16,6 +16,6 @@ export default class ManagementVehiclesIndexDetailsEditRoute extends Route {
     }
 
     async setupController(controller, model) {
-        controller.driver = model;
+        controller.vehicle = model;
     }
 }

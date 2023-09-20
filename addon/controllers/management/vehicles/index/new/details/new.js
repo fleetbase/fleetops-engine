@@ -41,16 +41,16 @@ export default class ManagementVehiclesIndexDetailsNewController extends Control
   @service loader;
 
   /**
-   * The driver being created.
+   * The vehicle being created.
    *
    * @var {DriversModel}
    */
   /**
-   * The driver being created.
+   * The vehicle being created.
    *
    * @var {DriverModel}
    */
-  @tracked driver = this.store.createRecord('vehicle', {
+  @tracked vehicle = this.store.createRecord('vehicle', {
     status: `active`,
     slug: generateSlug(),
   });
@@ -81,32 +81,26 @@ export default class ManagementVehiclesIndexDetailsNewController extends Control
    *
    * @var {Boolean}
    */
-  @tracked isCreatingDriver = false;
-
-  /**
-   * True if updating driver.
-   *
-   * @var {Boolean}
-   */
-  @tracked isUpdatingServiceRate = false;
+  @tracked isCreatingVehicle = false;
 
   /**
    * Saves the driver to server
    *
    * @void
    */
-  @action createDriver() {
-    const { driver } = this;
+  @action createVehicle() {
+    const { vehicle } = this;
 
-    this.isCreatingDriver = true;
+    this.isCreatingVehicle = true;
     this.loader.showLoader('.overlay-inner-content', 'Creating vehicle...');
 
     try {
-      return driver
+      return vehicle
         .save()
-        .then((driver) => {
+        .then((vehicle) => {
+
           return this.transitionToRoute('management.vehicles.index').then(() => {
-            this.notifications.success(`New Vehicles ${driver.name} Created`);
+            this.notifications.success(`New Vehicles ${vehicle.name} Created`);
             this.resetForm();
             this.hostRouter.refresh();
           });
@@ -116,21 +110,21 @@ export default class ManagementVehiclesIndexDetailsNewController extends Control
           this.notifications.serverError(error);
         })
         .finally(() => {
-          this.isCreatingDriver = false;
+          this.isCreatingVehicle = false;
           this.loader.removeLoader();
         });
     } catch (error) {
-      this.isCreatingDriver = false;
+      this.isCreatingVehicle = false;
       this.loader.removeLoader();
     }
   }
 
   /**
-   * Resets the driver form
+   * Resets the vehicle form
    *
    * @void
    */
   @action resetForm() {
-    this.driver = this.store.createRecord('vehicle');
+    this.vehicle = this.store.createRecord('vehicle');
   }
 }

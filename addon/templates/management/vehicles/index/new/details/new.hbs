@@ -30,6 +30,13 @@
 
                     <div class="input-group mb-2">
                         <label>
+                            Model Data
+                        </label>
+                        <Input @value={{@options.vehicle.model_data}}  @type="text" class="w-full form-input" placeholder="Model Data" />
+                    </div>
+                    
+                    <div class="input-group mb-2">
+                        <label>
                             Make
                         </label>
                         <Input @value={{this.vehicle.make}}  @type="text" class="w-full form-input" placeholder="Vehicle Make" />
@@ -76,3 +83,10 @@
         </div>
     </div>
 </div>
+
+{{#if this.vehicle.id}}
+    <Button @icon="save" @type="primary" @text="Save Vehicle" @onClick={{this.updateVehicle}} @isLoading={{this.isUpdatingVehicle}} @isSubscriptionRequired={{true}} />
+{{else}}
+    <Button @icon="check" @type="primary" @text="Create Vehicle" @onClick={{this.createVehicle}} @isLoading={{this.isCreatingVehicle}} @isSubscriptionRequired={{true}} />
+{{/if}}
+
