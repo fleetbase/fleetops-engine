@@ -622,6 +622,15 @@ export default class ManagementDriversIndexController extends Controller {
     // }
 
     /**
+    * Transition to service rate edit route.
+    *
+    * @param {DriverModel} driver
+    */
+    @action viewDriver(driver) {
+        this.transitionToRoute('management.drivers.index.new.details.view', driver);
+    }
+
+    /**
      * Create a new `driver` in modal
      *
      * @param {Object} options
@@ -717,10 +726,6 @@ export default class ManagementDriversIndexController extends Controller {
      */
     @action editDriver(driver) {
         this.transitionToRoute('management.drivers.index.new.details.edit', driver);
-    }
-
-    @action viewDriver(driver) {
-        this.transitionToRoute('management.drivers.index.new.details.view', driver);
     }
 
     /**

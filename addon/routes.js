@@ -47,9 +47,26 @@ export default buildRoutes(function () {
                 });
             });
         });
-
         this.route('vehicles', function () {
-            this.route('index', { path: '/' });
+            this.route('index', { path: '/' }, function () {
+                this.route('new', function () {
+                    this.route('details', { path: '/' }, function () {
+                        this.route('new');
+                        this.route('edit', { path: '/:public_id' });
+                        this.route('view', { path: '/:public_id/view' });
+                    });
+                    this.route('tracking', function () {
+                        this.route('new', { path: '/' });
+                        this.route('edit', { path: '/:public_id' });
+                        this.route('view', { path: '/:public_id/view' });
+                    });
+                    this.route('telematics', function () {
+                        this.route('new', { path: '/' });
+                        this.route('edit', { path: '/:public_id' });
+                        this.route('view', { path: '/:public_id/view' });
+                    });
+                });
+            });
         });
         this.route('places', function () {
             this.route('index', { path: '/' });

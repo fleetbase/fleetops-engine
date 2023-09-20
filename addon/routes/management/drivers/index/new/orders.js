@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
 
 
-export default class ManagementDriversIndexNewOrdersRoute extends Route {
+export default class ManagementDriversIndexOrdersRoute extends Route {
 }

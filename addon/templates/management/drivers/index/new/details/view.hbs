@@ -1,88 +1,84 @@
 <div class="modal-body-container">
-    <div class="flex">
-        <div class="w-32 mb-6 mr-6">
-            <Image src={{this.driver.photo_url}} @fallbackSrc={{config "defaultValues.driverImage"}} alt={{@options.driver.name}} height="128" width="128" class="h-32 w-32 rounded-md" />
-        </div>
-        <div class="flex-1">
-            <div class="grid grid-cols-1 gap-2 text-xs dark:text-gray-100">
-                <div class="input-group">
-                    <label>
-                        Name
-                    </label>
-                    <p>{{this.driver.name}}</p>
-                    {{!-- <Input @value={{this.driver.name}}  @type="text" class="w-full form-input" placeholder="Name" /> --}}
+        <div class="flex flex-col md:flex-row">
+            <div class="lg:flex-none lg:w-40 mb-4 md:mb-0">
+                <div class="w-32">
+                    <img src={{this.driver.photo_url}} alt={{this.driver.name}} height="128" width="128" class="h-32 w-32 rounded-md" />
                 </div>
             </div>
-
-            <div class="grid grid-cols-2 gap-2 text-xs dark:text-gray-100">
-                <div class="input-group">
-                    <label>
-                        Internal ID
-                    </label>
-                    <p>{{this.driver.internal_id}}</p>
-                    {{!-- <Input @value={{this.driver.internal_id}}  @type="text" class="w-full form-input" placeholder="Internal ID" /> --}}
+            <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div class="field-info-container ">
+                    <div class="field-name">Name</div>
+                    <div class="field-value">{{n-a this.driver.name}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Drivers License
-                    </label>
-                    <p>{{this.driver.drivers_license_number}}</p>
-                    {{!-- <Input @value={{this.driver.drivers_license_number}}  @type="text" class="w-full form-input" placeholder="Drivers License" /> --}}
+                <div class="field-info-container">
+                    <div class="field-name">ID</div>
+                    <div class="field-value">{{n-a this.driver.public_id}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Email
-                    </label>
-                    <p>{{this.driver.email}}</p>
-                    {{!-- <Input @value={{@options.driver.email}}  @type="text" class="w-full form-input" placeholder="Email" /> --}}
+                <div class="field-info-container">
+                    <div class="field-name">Internal ID</div>
+                    <div class="field-value">{{n-a this.driver.internal_id}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Phone
-                    </label>
-                    <p>{{this.driver.phone}}</p>
-                    {{!-- <PhoneInput @value={{this.driver.phone}} @onInput={{fn (mut this.driver.phone)}} class="form-input w-full" /> --}}
+                <div class="field-info-container md:col-span-3">
+                    <div class="field-name">Drivers License</div>
+                    <div class="field-value">{{n-a this.driver.drivers_license}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Vendor
-                    </label>
-                    <p>{{this.driver.vendor.name}}</p>
-                    {{!-- <ModelSelect @modelName="vendor" @selectedModel={{this.driver.vendor}} @placeholder="Select Vendor" @triggerClass="form-select form-input" @infiniteScroll={{false}} @renderInPlace={{true}} @onChange={{fn (mut this.driver.vendor)}} as |model|>
-                        {{model.name}}
-                    </ModelSelect> --}}
+                <div class="field-info-container md:col-span-3">
+                    <div class="field-name">Email</div>
+                    <div class="field-value">{{n-a this.driver.email}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Vehicle
-                    </label>
-                    <p>{{this.driver.vehicle.name}}</p>
-                    {{!-- <ModelSelect @modelName="vehicle" @selectedModel={{this.driver.vehicle}} @placeholder="Select Vehicle" @triggerClass="form-select form-input" @infiniteScroll={{false}} @renderInPlace={{true}} @onChange={{fn (mut this.driver.vehicle)}} as |model|>
-                        {{model.display_name}}
-                    </ModelSelect> --}}
+                <div class="field-info-container md:col-span-3">
+                    <div class="field-name">Phone</div>
+                    <div class="field-value">{{n-a this.driver.phone}}</div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        City
-                    </label>
-                    <p>{{this.driver.city}}</p>
-                    {{!-- <Input @value={{this.driver.city}}  @type="text" class="w-full form-input" placeholder="City" /> --}}
+                <div class="field-info-container md:col-span-3">
+                    <div class="field-name">Status</div>
+                    <div class="field-value">
+                        <Badge @status={{this.driver.status}} />
+                    </div>
                 </div>
-
-                <div class="input-group">
-                    <label>
-                        Country
-                    </label>
-                    <p>{{this.driver.country}}</p>
-                    {{!-- <CountrySelect class="w-full form-input form-select form-datalist" @value={{this.driver.country}} @onChange={{fn (mut this.driver.country)}} placeholder="Country" /> --}}
+                <div class="field-info-container">
+                    <div class="field-name">Current Job</div>
+                    <div class="field-value">{{n-a this.driver.current_job_id}}</div>
+                </div>
+                <div class="field-info-container">
+                    <div class="field-name">Vehicle</div>
+                    <div class="field-value">
+                        {{!-- {{#if this.driver.vehicle_uuid}}
+                            <a href="javascript:;" {{on "click" this.viewVehicle}}>{{this.driver.vehicle_name}}</a>
+                        {{else}}
+                            {{n-a this.driver.vehicle_name}}
+                        {{/if}} --}}
+                    </div>
+                </div>
+                <div class="field-info-container">
+                    <div class="field-name">Vendor</div>
+                    <div class="field-value">
+                        {{!-- {{#if this.driver.vendor_uuid}}
+                            <a href="javascript:;" {{on "click" this.viewVendor}}>{{this.driver.vendor_name}}</a>
+                        {{else}}
+                            {{n-a this.driver.vendor_name}}
+                        {{/if}} --}}
+                    </div>
+                </div>
+                <div class="field-info-container">
+                    <div class="field-name">City</div>
+                    <div class="field-value">{{n-a this.driver.city}}</div>
+                </div>
+                <div class="field-info-container">
+                    <div class="field-name">Country</div>
+                    <div class="field-value">
+                        <CountryName @country={{this.driver.country}} />
+                    </div>
+                </div>
+                <div class="field-info-container md:col-span-3">
+                    <div class="field-name">Coordinates</div>
+                    <div class="field-value">{{point-coordinates this.driver.location}}</div>
+                    {{!-- <a href="javascript:;" class="btn btn-xs btn-default mt-1" {{on "click" this.viewDriverOnMap}}>
+                        <FaIcon @icon="map" class="mr-1.5" />
+                        <span>View on map</span>
+                    </a> --}}
                 </div>
             </div>
         </div>
     </div>
-</div>
+

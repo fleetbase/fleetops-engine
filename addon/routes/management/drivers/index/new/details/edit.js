@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 
-export default class ManagementDriversIndexNewDetailsEditRoute extends Route {
+export default class ManagementDriversIndexDetailsEditRoute extends Route {
     @service store;
     @service currentUser;
     @service notifications;

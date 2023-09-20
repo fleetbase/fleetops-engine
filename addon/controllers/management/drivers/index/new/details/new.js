@@ -2,11 +2,9 @@ import Controller, { inject as controller } from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { isBlank } from '@ember/utils';
 import generateSlug from '@fleetbase/ember-core/utils/generate-slug';
-import Point from '@fleetbase/fleetops-data/utils/geojson/point';
 
-export default class ManagementDriversIndexNewDetailsNewController extends Controller {
+export default class ManagementDriversIndexDetailsNewController extends Controller {
     /**
      * Inject the `management.drivers.index` controller
      *
@@ -43,7 +41,7 @@ export default class ManagementDriversIndexNewDetailsNewController extends Contr
     @service loader;
 
     /**
-     * The service rate being created.
+     * The driver being created.
      *
      * @var {DriversModel}
      */
@@ -79,86 +77,21 @@ export default class ManagementDriversIndexNewDetailsNewController extends Contr
     @tracked zones = [];
 
     /**
-     * True if creating service rate.
+     * True if creating driver.
      *
      * @var {Boolean}
      */
     @tracked isCreatingDriver = false;
 
     /**
-     * True if updating service rate.
+     * True if updating driver.
      *
      * @var {Boolean}
      */
     @tracked isUpdatingServiceRate = false;
 
     /**
-     * Edit a `driver` details
-     *
-     * @param {DriverModel} driver
-     * @param {Object} options
-     * @void
-     */
-    @action editDriver(driver, options = {}) {
-        // make sure vehicle is loaded
-        driver.loadVehicle();
-        this.modalsManager.show('modals/driver-form', {
-            title: 'Edit Driver',
-            acceptButtonText: 'Save Changes',
-            acceptButtonIcon: 'save',
-            declineButtonIcon: 'times',
-            declineButtonIconPrefix: 'fas',
-            driver,
-            uploadNewPhoto: (file) => {
-                this.fetch.uploadFile.perform(
-                    file,
-                    {
-                        path: `uploads/${this.currentUser.companyId}/drivers/${driver.slug}`,
-                        subject_uuid: driver.id,
-                        subject_type: `driver`,
-                        type: `driver_photo`,
-                    },
-                    (uploadedFile) => {
-                        driver.setProperties({
-                            photo_uuid: uploadedFile.id,
-                            photo_url: uploadedFile.url,
-                            photo: uploadedFile,
-                        });
-                    }
-                );
-            },
-            confirm: (modal, done) => {
-                modal.startLoading();
-
-                if (isBlank(driver.location)) {
-                    // set default location from currentUser service
-                    const { latitude, longitude } = this.currentUser;
-                    driver.set('location', new Point(latitude, longitude));
-                }
-
-                driver
-                    .save()
-                    .then((driver) => {
-                        if (typeof options.successNotification === 'function') {
-                            this.notifications.success(options.successNotification(driver));
-                        } else {
-                            this.notifications.success(options.successNotification || `${driver.name} details updated.`);
-                        }
-
-                        done();
-                    })
-                    .catch((error) => {
-                        // driver.rollbackAttributes();
-                        modal.stopLoading();
-                        this.notifications.serverError(error);
-                    });
-            },
-            ...options,
-        });
-    }
-
-    /**
-     * Saves the service rate to server
+     * Saves the driver to server
      *
      * @void
      */

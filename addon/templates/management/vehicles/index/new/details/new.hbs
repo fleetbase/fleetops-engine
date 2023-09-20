@@ -1,0 +1,78 @@
+<div class="modal-body-container">
+    <div class="flex">
+        <div class="w-32 mb-6 mr-6">
+            <Image src={{this.vehicle.photo_url}} @fallbackSrc={{config "defaultValues.vehicleImage"}} alt={{this.vehicle.name}} height="128" width="128" class="h-32 w-32 rounded-md" />
+            <UploadButton @name="photos" @accept="image/*" @onFileAdded={{this.uploadNewPhoto}} class="w-32" />
+        </div>
+        <div class="flex-1 space-y-4">
+            <ContentPanel @title="Details" @open={{true}} @pad={{true}} @panelBodyClass="bg-white dark:bg-gray-800">
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-2">
+                    <div class="input-group mb-2">
+                        <label>
+                            Internal ID
+                        </label>
+                        <Input @value={{this.vehicle.internal_id}}  @type="text" class="w-full form-input" placeholder="Internal ID" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            Plate Number
+                        </label>
+                        <Input @value={{this.vehicle.plate_number}}  @type="text" class="w-full form-input" placeholder="Plate Number" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            VIN Number
+                        </label>
+                        <Input @value={{this.vehicle.vin}}  @type="text" class="w-full form-input" placeholder="VIN Number" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            Make
+                        </label>
+                        <Input @value={{this.vehicle.make}}  @type="text" class="w-full form-input" placeholder="Vehicle Make" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            Model
+                        </label>
+                        <Input @value={{this.vehicle.model}}  @type="text" class="w-full form-input" placeholder="Vehicle Model" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            Year
+                        </label>
+                        <Input @value={{this.vehicle.year}}  @type="text" class="w-full form-input" placeholder="Vehicle Year" />
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <label>
+                            Driver Assigned
+                        </label>
+                        <ModelSelect @modelName="driver" @selectedModel={{this.vehicle.driver}} @placeholder="Select Driver" @triggerClass="form-select form-input" @infiniteScroll={{false}} @renderInPlace={{true}} @onChange={{fn (mut this.vehicle.driver)}} as |model|>
+                            {{model.name}}
+                        </ModelSelect>
+                    </div>
+                </div>
+            </ContentPanel>
+
+            <ContentPanel @title="Avatar" @open={{false}} @pad={{true}} @panelBodyClass="bg-white dark:bg-gray-800">
+                <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-2">
+                    <div class="input-group mb-2">
+                        <InputLabel @labelText="Select map avatar" @helpText="Select an avatar to be used for rendering on maps when using geolocation tracking features." />
+                        <FetchSelect class="w-60" @placeholder="Select avatar" @path="vehicles/avatars" @value={{this.vehicle.avatar_url}} @onSelect={{fn (mut this.vehicle.avatar_url)}} as |option key|>
+                            {{titleize (humanize key)}}
+                        </FetchSelect>
+                    </div>
+                    <div>
+                        <img alt={{this.vehicle.public_id}} src={{this.vehicle.avatar_url}} class="w-24 h-24" />
+                    </div>
+                </div>
+            </ContentPanel>
+        </div>
+    </div>
+</div>

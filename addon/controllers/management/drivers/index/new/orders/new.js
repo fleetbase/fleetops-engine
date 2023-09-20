@@ -6,6 +6,6 @@ import { isBlank } from '@ember/utils';
 import generateSlug from '@fleetbase/ember-core/utils/generate-slug';
 import Point from '@fleetbase/fleetops-data/utils/geojson/point';
 
-export default class OperationsDriversIndexNewDetController extends Controller {
+export default class ManagementDriversIndexOrdersNewController extends Controller {
 
 }

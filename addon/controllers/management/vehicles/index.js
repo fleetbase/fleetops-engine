@@ -612,5 +612,5 @@ export default class ManagementVehiclesIndexController extends ManagementControl
      * @todo implement
      * @void
      */
-    @action assignDriver() {}
+    @action assignDriver() { }
 }

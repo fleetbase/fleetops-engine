@@ -1,8 +1,8 @@
-import ManagementDriversIndexNewDetailsNewController from './new';
+import ManagementDriversIndexDetailsNewController from './new';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class ManagementDriversIndexNewDetailsEditController extends ManagementDriversIndexNewDetailsNewController {
+export default class ManagementDriversIndexDetailsEditController extends ManagementDriversIndexDetailsNewController {
     /**
      * True if updating service rate.
      *
