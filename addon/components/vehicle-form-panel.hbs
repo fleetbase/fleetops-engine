@@ -1,0 +1,9 @@
+<Overlay @position={{or @position "right"}} @noBackdrop={{true}} @isResizable={{true}} @fullHeight={{true}} @width="800px">
+    <Overlay::Header @title={{@vehicle.display_name}} @status={{@vehicle.public_id}} @hideStatusDot={{true}} @createdAt={{@vehicle.createdAt}} @onPressCancel={{@onPressCancel}}>
+        <Button @icon="save" @type="primary" @text={{if @vehicle.id "Create Vehicle" "Save Changes"}} />
+    </Overlay::Header>
+
+    <Overlay::Body @wrapperClass="new-service-rate-overlay-body px-4 space-y-4 pt-4" @increaseInnerBodyHeightBy={{1000}}>
+
+    </Overlay::Body>
+</Overlay>

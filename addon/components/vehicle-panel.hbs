@@ -1,0 +1,29 @@
+<Overlay @position={{or @position "right"}} @noBackdrop={{true}} @isResizable={{true}} @fullHeight={{true}} @width="800px">
+    <Overlay::Header @title={{@vehicle.display_name}} @status={{@vehicle.public_id}} @hideStatusDot={{true}} @createdAt={{@vehicle.createdAt}} @onPressCancel={{@onPressCancel}}>
+        <Button @icon="edit" @type="default" @text="Edit Vehicle" />
+    </Overlay::Header>
+
+    <Overlay::Body @wrapperClass="new-service-rate-overlay-body" @increaseInnerBodyHeightBy={{900}}>
+        <div class="section-header-actions w-full overflow-x-scroll lg:overflow-x-auto">
+            <div class="ui-tabs mt-4">
+                <nav>
+                    <a href="javascript:;" class="ui-tab {{if (eq this.currentTab "details") 'active'}}" {{on "click" (fn this.changeTab "details")}}>
+                        <FaIcon @icon="circle-info" class="mr-2" />
+                        <span>Details</span>
+                    </a>
+                    <a href="javascript:;" class="ui-tab {{if (eq this.currentTab "tracking") 'active'}}" {{on "click" (fn this.changeTab "tracking")}}>
+                        <FaIcon @icon="satellite-dish" class="mr-2" />
+                        <span>Tracking</span>
+                    </a>
+                    <a href="javascript:;" class="ui-tab {{if (eq this.currentTab "devices") 'active'}}" {{on "click" (fn this.changeTab "devices")}}>
+                        <FaIcon @icon="hard-drive" class="mr-2" />
+                        <span>Devices</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <div class="tab-content tab-{{this.currentTab}}">
+
+        </div>
+    </Overlay::Body>
+</Overlay>
