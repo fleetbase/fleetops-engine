@@ -10,6 +10,7 @@ export default class ManagementVehiclesIndexRoute extends Route {
         sort: { refreshModel: true },
         query: { refreshModel: true },
         status: { refreshModel: true },
+        online: { refreshModel: true },
         name: { refreshModel: true },
         public_id: { refreshModel: true },
         vin: { refreshModel: true },

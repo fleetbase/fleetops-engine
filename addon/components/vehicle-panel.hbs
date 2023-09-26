@@ -72,6 +72,15 @@
                                     <div class="field-name">Status</div>
                                     <Badge @status={{@vehicle.status}} />
                                 </div>
+
+                                <div class="field-info-container">
+                                    <div class="field-name">Online</div>
+                                    {{#if (eq @vehicle.online 0)}}
+                                        <div class="field-value">Online</div>
+                                    {{else}}
+                                        <div class="field-value">Offline</div>
+                                    {{/if}}
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-2 mb-2 mt-2">
