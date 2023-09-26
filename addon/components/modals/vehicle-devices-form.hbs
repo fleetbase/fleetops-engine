@@ -2,12 +2,12 @@
 <Modal::Default @modalIsOpened={{@modalIsOpened}} @options={{@options}} @confirm={{@onConfirm}} @decline={{@onDecline}}>
     <div class="modal-body-container">
         <div class="input-group">
-            <label>
-                Select device
-            </label>
             <FlespiDeviceSelect @onSelectDeviceFromApi={{@options.onSelectDeviceFromApi}} class="w-full form-input form-select form-datalist" @value={{@options.vehicle.vehicle_devices}} placeholder="Device" />
         </div>
-    </div>
 
+        <InputGroup @name="Select device location">
+            <Select @options={{@options.deviceSelect}} @onSelect={{@options.setDeviceLocation}} @placeholder="Select device location" class="w-full" disabled={{this.isLoading}} />
+        </InputGroup>
+    </div>
     {{yield}}
 </Modal::Default>

@@ -1,4 +1,7 @@
 <div class="fleetbase-power-select {{@wrapperClass}}">
+    <label>
+        Select device
+    </label>
     <PowerSelect @renderInPlace={{true}} @searchEnabled={{true}} @selected={{this.selected}} @searchField="name" @options={{this.devices}} @onChange={{this.selectDevice}} @triggerClass="form-select form-input {{@triggerClass}}" @dropdownClass={{or @dropdownClass "ember-model-select__dropdown"}} @placeholder={{or @placeholder "Select device..."}} @disabled={{this.isLoading}} ...attributes as |device|>
         {{!-- <span class="mr-1">{{device.emoji}}</span> --}}
         <span>{{device.name}}</span>

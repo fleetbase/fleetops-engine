@@ -14,6 +14,7 @@ export default class VehiclePanelComponent extends Component {
     @tracked devices = [];
     @tracked deviceApi = {};
 
+    @tracked deviceSelect = ['Left back door', 'Left front door', 'Hood', 'Trunk', 'Dashboard'];
     @tracked vehicle;
 
     constructor() {
@@ -43,7 +44,11 @@ export default class VehiclePanelComponent extends Component {
             acceptButtonText: 'Save Changes',
             acceptButtonIcon: 'save',
             modalClass: 'modal-lg',
+            deviceSelect: this.deviceSelect,
             device,
+            setDeviceLocation: (location) => {
+                device.device_location = location;
+            },
             onSelectDeviceFromApi: (deviceApi) => {
                 device.device_id = deviceApi.id;
                 device.device_provider = 'flespi';
