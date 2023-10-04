@@ -3,9 +3,9 @@
         <Button @text="Create new order" @type="primary" @size="xs" @icon="paper-plane" @iconPrefix="fas" @iconSize="sm" @wrapperClass="w-full" class="w-full" @onClick={{this.createOrder}} />
     </div>
     <Layout::Sidebar::Panel @open={{true}} @title="Operations">
-        <Layout::Sidebar::Item @route="console.fleet-ops.operations.orders" @icon="home">Dashboard</Layout::Sidebar::Item>
+        <Layout::Sidebar::Item @route="console.fleet-ops.operations.orders" @icon="home">Fleet Summary</Layout::Sidebar::Item>
         {{!-- <Layout::Sidebar::Item @route="console.fleet-ops.operations.scheduler" @icon="calendar-day">Scheduler</Layout::Sidebar::Item> --}}
-        <Layout::Sidebar::Item @route="console.fleet-ops.operations.service-rates" @icon="file-invoice-dollar">Service Rates</Layout::Sidebar::Item>
+        {{!-- <Layout::Sidebar::Item @route="console.fleet-ops.operations.service-rates" @icon="file-invoice-dollar">Service Rates</Layout::Sidebar::Item> --}}
     </Layout::Sidebar::Panel>
     <Layout::Sidebar::Panel @open={{true}} @title="Resources">
         <Layout::Sidebar::Item @route="console.fleet-ops.management.drivers" @icon="route">Drivers</Layout::Sidebar::Item>
@@ -14,8 +14,8 @@
         <Layout::Sidebar::Item @route="console.fleet-ops.management.vendors" @icon="warehouse">Vendors</Layout::Sidebar::Item>
         <Layout::Sidebar::Item @route="console.fleet-ops.management.contacts" @icon="address-book">Contacts</Layout::Sidebar::Item>
         <Layout::Sidebar::Item @route="console.fleet-ops.management.places" @icon="location-dot">Places</Layout::Sidebar::Item>
-        <Layout::Sidebar::Item @route="console.fleet-ops.management.fuel-reports" @icon="gas-pump">Fuel Reports</Layout::Sidebar::Item>
-        <Layout::Sidebar::Item @route="console.fleet-ops.management.issues" @icon="triangle-exclamation">Issues</Layout::Sidebar::Item>
+        {{!-- <Layout::Sidebar::Item @route="console.fleet-ops.management.fuel-reports" @icon="gas-pump">Fuel Reports</Layout::Sidebar::Item>
+        <Layout::Sidebar::Item @route="console.fleet-ops.management.issues" @icon="triangle-exclamation">Issues</Layout::Sidebar::Item> --}}
     </Layout::Sidebar::Panel>
     <Layout::Sidebar::Item @onClick={{this.toggleSettings}} @icon="cogs">Settings</Layout::Sidebar::Item>
 </EmberWormhole>
