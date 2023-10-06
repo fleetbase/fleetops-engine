@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 export default class FleetPanelComponent extends Component {
     @service fetch;
     @service modalsManager;
+    @service universe;
     @service store;
     @service fetch;
     @tracked currentTab;
@@ -26,18 +27,26 @@ export default class FleetPanelComponent extends Component {
     }
 
     @action addDriver(driver) {
-        this.fetch.post('fleets/assign-driver', { driver: driver.id, fleet: this.fleet.id });
+        this.fetch.post('fleets/assign-driver', { driver: driver.id, fleet: this.fleet.id }).then(() => {
+            this.universe.trigger('fleet.driver.assigned', this.fleet, driver);
+        });
     }
 
     @action removeDriver(driver) {
-        this.fetch.post('fleets/remove-driver', { driver: driver.id, fleet: this.fleet.id });
+        this.fetch.post('fleets/remove-driver', { driver: driver.id, fleet: this.fleet.id }).then(() => {
+            this.universe.trigger('fleet.driver.unassigned', this.fleet, driver);
+        });
     }
 
     @action addVehicle(vehicle) {
-        this.fetch.post('fleets/assign-vehicle', { vehicle: vehicle.id, fleet: this.fleet.id });
+        this.fetch.post('fleets/assign-vehicle', { vehicle: vehicle.id, fleet: this.fleet.id }).then(() => {
+            this.universe.trigger('fleet.vehicle.assigned', this.fleet, vehicle);
+        });
     }
 
     @action removeVehicle(vehicle) {
-        this.fetch.post('fleets/remove-vehicle', { vehicle: vehicle.id, fleet: this.fleet.id });
+        this.fetch.post('fleets/remove-vehicle', { vehicle: vehicle.id, fleet: this.fleet.id }).then(() => {
+            this.universe.trigger('fleet.vehicle.unassigned', this.fleet, vehicle);
+        });
     }
 }
